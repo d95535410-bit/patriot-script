@@ -11,6 +11,7 @@
         .login-box h2 { margin-bottom: 20px; font-weight: 800; background: linear-gradient(90deg, #3b82f6, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
         .login-box input { width: 100%; padding: 12px; background: #05060c; border: 1px solid #334155; border-radius: 6px; color: white; margin-bottom: 20px; text-align: center; font-size: 1rem; outline: none; }
         .login-box button { width: 100%; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        
         .admin-panel { display: none; background: #0e111f; padding: 40px; border-radius: 16px; border: 1px solid rgba(59, 130, 246, 0.2); max-width: 500px; width: 90%; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
         .admin-panel h1 { font-size: 2rem; font-weight: 900; margin-bottom: 20px; text-align: center; background: linear-gradient(90deg, #3b82f6, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .status-container { display: flex; flex-direction: column; gap: 20px; }
@@ -18,9 +19,32 @@
         .status-title { font-size: 1rem; font-weight: 700; color: #cbd5e1; }
         .indicator { width: 12px; height: 12px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 10px #ef4444; }
         .indicator.active { background: #10b981; box-shadow: 0 0 10px #10b981; }
-        .toggle-btn { width: 100%; padding: 12px; font-size: 0.95rem; font-weight: 800; color: white; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
+        
+        .toggle-btn { width: 100%; padding: 12px; font-size: 0.95rem; font-weight: 800; color: white; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
         .toggle-btn.off { background: linear-gradient(90deg, #3b82f6, #2563eb); }
         .toggle-btn.on { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+        /* МИНИ СМС УВЕДОМЛЕНИЕ В УГЛУ */
+        #miniToast {
+            position: fixed;
+            bottom: -100px;
+            right: 25px;
+            background: #0e111f;
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 999999;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+        }
+        #miniToast.show { bottom: 25px; opacity: 1; }
+        .mini-spinner { width: 18px; height: 12px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: #3b82f6; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
@@ -35,6 +59,7 @@
 
     <div class="admin-panel" id="adminPanel">
         <h1>Patriot Control</h1>
+        <div style="text-align: center; margin-bottom: 15px; color: #64748b; font-size: 0.85rem;" id="dbStatus">Подключение к базе данных...</div>
         <div class="status-container">
             <div class="status-card">
                 <div style="display: flex; align-items: center; gap: 10px;"><div class="indicator" id="indUpdate"></div><div class="status-title">Окно обновления (По центру)</div></div>
@@ -47,23 +72,43 @@
         </div>
     </div>
 
+    <!-- МИНИ СМС ОКОШКО -->
+    <div id="miniToast">
+        <div class="mini-spinner"></div>
+        <div style="color: white; font-size: 0.9rem; font-weight: 600;">Пожалуйста, подождите... База данных загружается</div>
+    </div>
+
     <script>
-        // Всё объявляем и настраиваем строго в самом начале
         var currentSettings = { maintenance: false, siteClosed: false };
-        
-        var firebaseConfig = { databaseURL: "https://firebaseio.com" };
-        firebase.initializeApp(firebaseConfig);
-        var database = firebase.database();
+        var database = null;
+        var isDbReady = false;
+
+        window.onload = function() {
+            try {
+                var firebaseConfig = { databaseURL: "https://firebaseio.com" };
+                firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+                isDbReady = true;
+                document.getElementById('dbStatus').innerHTML = "🟢 База данных подключена";
+                document.getElementById('dbStatus').style.color = "#10b981";
+                hideToast();
+            } catch(e) {
+                document.getElementById('dbStatus').innerHTML = "🔴 Ошибка подключения";
+                document.getElementById('dbStatus').style.color = "#ef4444";
+                console.error(e);
+            }
+        };
 
         function checkPassword() {
             if (document.getElementById('passInput').value === "patriot2026") {
                 document.getElementById('loginBox').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-                initFirebase();
+                if (isDbReady) { initFirebase(); } else { showToast(); }
             } else { alert("Неверный пароль!"); }
         }
 
         function initFirebase() {
+            if (!database) return;
             database.ref('siteSettings').on('value', (snapshot) => {
                 const val = snapshot.val();
                 if (val) {
@@ -75,9 +120,16 @@
         }
 
         function toggleOption(key) {
+            if (!isDbReady || !database) {
+                showToast();
+                return;
+            }
             currentSettings[key] = !currentSettings[key];
             database.ref('siteSettings').set(currentSettings);
         }
+
+        function showToast() { document.getElementById('miniToast').classList.add('show'); }
+        function hideToast() { document.getElementById('miniToast').classList.remove('show'); }
 
         function updateUI() {
             const bUp = document.getElementById('btnUpdate'); const iUp = document.getElementById('indUpdate');
