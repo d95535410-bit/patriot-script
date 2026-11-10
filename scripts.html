@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patriot Script — Select Executor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #05060c; color: #f8fafc; line-height: 1.6; padding-top: 100px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: rgba(5, 6, 12, 0.95); backdrop-filter: blur(12px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid rgba(59, 130, 246, 0.2); }
+        .header-logo { font-size: 22px; font-weight: 900; letter-spacing: 2px; background: linear-gradient(90deg, #3b82f6, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .back-btn { color: #94a3b8; text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 20px; border-radius: 4px; }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        h2 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 50px; background: linear-gradient(90deg, #3b82f6, #f8fafc, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; justify-content: center; }
+        .script-card { background: #0e111f; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.15); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.4s ease; }
+        .script-card:hover { transform: translateY(-10px); border-color: #ef4444; box-shadow: 0 15px 35px rgba(239, 68, 68, 0.25); }
+        .img-container { width: 100%; height: 160px; overflow: hidden; background: #15192c; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card-info { padding: 20px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+        .script-card h3 { font-size: 1.3rem; color: #ffffff; margin-bottom: 15px; text-transform: uppercase; font-weight: 800; }
+        .execute-btn { display: block; width: 100%; padding: 14px; font-size: 1rem; font-weight: 800; color: #ffffff; background: linear-gradient(90deg, #3b82f6, #ef4444); border-radius: 6px; text-transform: uppercase; cursor: pointer; text-decoration: none; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 6, 12, 0.95); backdrop-filter: blur(8px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: #0d0f1a; border-radius: 16px; padding: 30px; border: 1px solid #1a1e36; max-width: 650px; width: 90%; text-align: left; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #64748b; cursor: pointer; }
+        .screenshot-gallery { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        .screenshot-gallery img { max-width: 260px; width: 100%; height: auto; border-radius: 8px; border: 2px solid rgba(99, 102, 241, 0.3); }
+        .code-container { background: #05060c; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin: 15px 0; overflow-x: auto; }
+        .code-text { font-family: monospace; color: #38bdf8; font-size: 0.9rem; white-space: nowrap; }
+        .copy-btn { display: block; width: 100%; padding: 15px; background: linear-gradient(90deg, #6366f1, #3b82f6); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+        .telegram-tag { text-align: center; margin-top: 15px; color: #475569; font-size: 0.8rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-logo">Patriot_Script</div>
+        <a href="index.html" class="back-btn">← Back</a>
+    </header>
+
+    <div class="container">
+        <h2>Select Your Script</h2>
+        <div class="grid">
+            <div class="script-card">
+                <div class="img-container"><img src="rivals.png" alt="Rivals"></div>
+                <div class="card-info"><h3>Rivals</h3><div class="execute-btn" onclick="openModal()">Get Script</div></div>
+            </div>
+            <div class="script-card">
+                <div class="img-container"><img src="mm2.png" alt="MM2"></div>
+                <div class="card-info"><h3>MM2</h3><div class="execute-btn">Get Script</div></div>
+            </div>
+            <div class="script-card">
+                <div class="img-container"><img src="ftap.png" alt="FTAP"></div>
+                <div class="card-info"><h3>FTAP</h3><div class="execute-btn">Get Script</div></div>
+            </div>
+            <div class="script-card">
+                <div class="img-container"><img src="universal.png" alt="Universal"></div>
+                <div class="card-info"><h3>Universal</h3><div class="execute-btn">Get Script</div></div>
+            </div>
+            <div class="script-card">
+                <div class="img-container"><img src="bab.png" alt="Build A Boat For Treasure"></div>
+                <div class="card-info"><h3>Build A Boat For Treasure</h3><div class="execute-btn">Get Script</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="rivalsModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="screenshot-gallery">
+                <img src="menu1.png" alt="Menu 1">
+                <img src="menu2.png" alt="Menu 2">
+            </div>
+            <h3 style="color: white; margin-bottom: 10px; font-weight: 800;">🎯 PATRIOT AIMBOT v2.0</h3>
+            <p style="color: #cbd5e1; font-size: 0.9rem;">Мгновенный запуск · Aimbot (B) · ESP (P) · FOV Circle (Q) · Ползунок радиуса FOV</p>
+            <div class="code-container"><span class="code-text" id="scriptCode">loadstring(game:HttpGet("https://pastebin.com"))()</span></div>
+            <button class="copy-btn" onclick="copyCode()">📋 СКОПИРОВАТЬ С К Р И П Т</button>
+            <div class="telegram-tag">t.me/patriot_script</div>
+        </div>
+    </div>
+
+    <div id="maintenanceAlert" style="position: fixed; bottom: -100px; right: 25px; background: #0e111f; border: 2px solid #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); padding: 20px 25px; border-radius: 10px; display: flex; align-items: center; gap: 15px; z-index: 99999; opacity: 0; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none;">
+        <div style="width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: #ef4444; animation: spinLoader 1s linear infinite;"></div>
+        <div>
+            <h4 style="color: #ffffff; font-family: sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 2px; text-transform: uppercase;">Сайт обновляется</h4>
+            <p style="color: #94a3b8; font-family: sans-serif; font-size: 0.85rem; font-weight: 600; margin: 0;">Ведутся технические работы...</p>
+        </div>
+    </div>
+    <style>@keyframes spinLoader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+
+    <script>
+        function openModal() { document.getElementById('rivalsModal').classList.add('active'); }
+        function closeModal() { document.getElementById('rivalsModal').classList.remove('active'); }
+        function copyCode() {
+            const codeText = document.getElementById('scriptCode').innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector('.copy-btn'); btn.innerHTML = '✅ СКОПИРОВАНО!';
+                setTimeout(() => { btn.innerHTML = '📋 СКОПИРОВАТЬ С К Р И П Т'; }, 2000);
+            });
+        }
+        function checkMaintenance() {
+            const isUpdating = localStorage.getItem('maintenanceMode') === 'true';
+            const alertBox = document.getElementById('maintenanceAlert');
+            if (isUpdating) { alertBox.style.bottom = '25px'; alertBox.style.opacity = '1'; } 
+            else { alertBox.style.bottom = '-100px'; alertBox.style.opacity = '0'; }
+        }
+        setInterval(checkMaintenance, 500);
+        checkMaintenance();
+    </script>
+</body>
+</html>

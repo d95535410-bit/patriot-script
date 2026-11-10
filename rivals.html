@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patriot Script — Rivals Aimbot</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body { 
+            background: #05060c; 
+            color: #f8fafc; 
+            line-height: 1.6; 
+            padding-top: 100px;
+        }
+
+        .page-wrapper {
+            animation: fadeInPage 1s ease both;
+        }
+
+        /* Шапка */
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 8%; 
+            background: rgba(5, 6, 12, 0.95); 
+            backdrop-filter: blur(12px); 
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 1000; 
+            border-bottom: 2px solid rgba(59, 130, 246, 0.2); 
+        }
+
+        .header-logo { 
+            font-size: 22px; 
+            font-weight: 900; 
+            letter-spacing: 2px; 
+            background: linear-gradient(90deg, #3b82f6, #ef4444); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-transform: uppercase; 
+        }
+
+        .back-btn {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 4px;
+        }
+
+        .back-btn:hover {
+            color: #ffffff;
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Галерея скриншотов из твоих картинок */
+        .screenshot-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .screenshot-gallery img {
+            max-width: 320px;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Плашка со скриптом (Точная копия скриншота №3) */
+        .script-box {
+            background: #0d0f1a;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #1a1e36;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .script-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .script-icon {
+            font-size: 1.6rem;
+        }
+
+        .script-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .script-version {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .script-desc {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        /* Поле с кодом */
+        .code-container {
+            background: #05060c;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-text {
+            font-family: 'Courier New', Courier, monospace;
+            color: #38bdf8;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        /* Кнопка скопировать */
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #6366f1, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(90deg, #4f46e5, #2563eb);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .telegram-tag {
+            text-align: center;
+            margin-top: 20px;
+            color: #475569;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeInPage {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <!-- Верхнее меню -->
+        <header>
+            <div class="header-logo">Patriot_Script</div>
+            <a href="scripts.html" class="back-btn">← Back</a>
+        </header>
+
+        <div class="container">
+            <!-- Скриншоты чита сразу подгружаются из интернета по ссылкам -->
+            <div class="screenshot-gallery">
+                <img src="https://postimg.cc" alt="Patriot Aimbot Menu 1">
+                <img src="https://postimg.cc" alt="Patriot Aimbot Menu 2">
+            </div>
+
+            <!-- Информационный блок со скриптом копирования -->
+            <div class="script-box">
+                <div class="script-header">
+                    <span class="script-icon">🎯</span>
+                    <span class="script-title">PATRIOT AIMBOT</span>
+                    <span class="script-version">v2.0</span>
+                </div>
+                
+                <p class="script-desc">
+                    Мгновенный запуск · Aimbot (B) · ESP (P) · FOV Circle (Q) · Ползунок радиуса FOV · Список игроков с аватарами · Клик по игроку = игнор аимбота
+                </p>
+
+                <div class="code-container">
+                    <code class="code-text" id="scriptCode">loadstring(game:HttpGet("https://pastebin.com"))()</code>
+                </div>
+
+                <button class="copy-btn" onclick="copyScript()">📋 СКОПИРОВАТЬ С К Р И П Т</button>
+                
+                <div class="telegram-tag">t.me/patriot_script</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyScript() {
+            const codeText = document.getElementById('scriptCode').innerText;
+            
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerHTML;
+                
+                btn.innerHTML = '✅ СКОПИРОВАНО!';
+                btn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = 'linear-gradient(90deg, #6366f1, #3b82f6)';
+                }, 2000);
+            }).catch(err => {
+                alert('Ошибка при копировании: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

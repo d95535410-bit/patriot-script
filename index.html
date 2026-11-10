@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patriot Screen — Бесплатные скрипты и Крякнутые</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #05060c; color: #f8fafc; line-height: 1.6; overflow: hidden; }
+        .page-loader { animation: startWindow 1.5s cubic-bezier(0.25, 1, 0.5, 1) both; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: rgba(5, 6, 12, 0.9); backdrop-filter: blur(12px); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid rgba(59, 130, 246, 0.2); animation: fadeInDown 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.3s both; }
+        .header-logo { font-size: 22px; font-weight: 900; letter-spacing: 2px; background: linear-gradient(90deg, #3b82f6, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        nav a { color: #94a3b8; text-decoration: none; margin-left: 30px; font-weight: 600; transition: 0.3s; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
+        nav a:hover { color: #ef4444; text-shadow: 0 0 15px rgba(239, 68, 68, 0.6); }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 20px 0 20px; background: radial-gradient(circle at 35% 45%, rgba(59, 130, 246, 0.12) 0%, transparent 55%), radial-gradient(circle at 65% 55%, rgba(239, 68, 68, 0.12) 0%, transparent 55%), #05060c; }
+        .main-logo-img { max-width: 280px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 15px rgba(239, 68, 68, 0.4)); animation: zoomInLogo 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) both, pulse 3s infinite ease-in-out 1.5s; }
+        .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 15px; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.4s both; }
+        .hero h1 span { background: linear-gradient(90deg, #3b82f6, #f8fafc, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.4rem; color: #e2e8f0; max-width: 750px; margin-bottom: 40px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1); animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.6s both; }
+        .cta-btn { display: inline-block; padding: 18px 65px; font-size: 1.2rem; font-weight: 800; color: #ffffff; text-decoration: none; background: linear-gradient(90deg, #3b82f6, #ef4444); border-radius: 6px; box-shadow: 0 4px 25px rgba(59, 130, 246, 0.4); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid rgba(255, 255, 255, 0.1); animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.8s both; }
+        .cta-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(239, 68, 68, 0.6); letter-spacing: 2.5px; }
+        @keyframes startWindow { 0% { opacity: 0; filter: blur(20px); transform: scale(1.05); } 100% { opacity: 1; filter: blur(0); transform: scale(1); } }
+        @keyframes zoomInLogo { 0% { opacity: 0; transform: scale(0.3) rotate(-10deg); filter: brightness(2); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: brightness(1); } }
+        @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 15px rgba(239, 68, 68, 0.3)); } 50% { transform: scale(1.03); filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.7)) drop-shadow(0 0 25px rgba(239, 68, 68, 0.5)); } 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 15px rgba(239, 68, 68, 0.3)); } }
+    </style>
+</head>
+<body>
+    <div class="page-loader">
+        <header>
+            <div class="header-logo">Patriot_Script</div>
+            <nav><a href="index.html">Главная</a><a href="scripts.html">Скрипты</a></nav>
+        </header>
+        <section class="hero" id="home">
+            <img src="logo.png" alt="Patriot Script Logo" class="main-logo-img">
+            <h1><span>Patriot Screen</span></h1>
+            <p>Бесплатные скрипты и Крякнутые</p>
+            <a href="scripts.html" class="cta-btn">Скрипты</a>
+        </section>
+    </div>
+
+    <div id="maintenanceAlert" style="position: fixed; bottom: -100px; right: 25px; background: #0e111f; border: 2px solid #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); padding: 20px 25px; border-radius: 10px; display: flex; align-items: center; gap: 15px; z-index: 99999; opacity: 0; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none;">
+        <div style="width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: #ef4444; animation: spinLoader 1s linear infinite;"></div>
+        <div>
+            <h4 style="color: #ffffff; font-family: sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 2px; text-transform: uppercase;">Сайт обновляется</h4>
+            <p style="color: #94a3b8; font-family: sans-serif; font-size: 0.85rem; font-weight: 600; margin: 0;">Ведутся технические работы...</p>
+        </div>
+    </div>
+    <style>@keyframes spinLoader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+
+    <script>
+        function checkMaintenance() {
+            const isUpdating = localStorage.getItem('maintenanceMode') === 'true';
+            const alertBox = document.getElementById('maintenanceAlert');
+            if (isUpdating) { alertBox.style.bottom = '25px'; alertBox.style.opacity = '1'; } 
+            else { alertBox.style.bottom = '-100px'; alertBox.style.opacity = '0'; }
+        }
+        setInterval(checkMaintenance, 500);
+        checkMaintenance();
+    </script>
+</body>
+</html>

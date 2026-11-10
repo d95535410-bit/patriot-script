@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patriot Script — Панель Управления</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #060810; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .login-box { background: #0e111f; padding: 40px; border-radius: 12px; border: 1px solid #1e293b; text-align: center; max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .login-box h2 { margin-bottom: 20px; font-weight: 800; background: linear-gradient(90deg, #3b82f6, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-box input { width: 100%; padding: 12px; background: #05060c; border: 1px solid #334155; border-radius: 6px; color: white; margin-bottom: 20px; text-align: center; font-size: 1rem; outline: none; }
+        .login-box button { width: 100%; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .login-box button:hover { background: #2563eb; }
+        .admin-panel { display: none; background: #0e111f; padding: 40px; border-radius: 16px; border: 1px solid rgba(59, 130, 246, 0.2); max-width: 500px; width: 90%; box-shadow: 0 15px 40px rgba(0,0,0,0.6); text-align: center; }
+        .admin-panel h1 { font-size: 2rem; font-weight: 900; margin-bottom: 10px; letter-spacing: 1px; }
+        .admin-panel p { color: #64748b; margin-bottom: 30px; font-size: 0.95rem; }
+        .status-card { background: #05060c; border: 1px solid #1e293b; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .status-title { font-size: 1.1rem; font-weight: 700; color: #cbd5e1; }
+        .indicator { width: 12px; height: 12px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 10px #ef4444; transition: 0.3s; }
+        .indicator.active { background: #10b981; box-shadow: 0 0 10px #10b981; }
+        .toggle-btn { padding: 14px 40px; font-size: 1rem; font-weight: 800; color: white; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; }
+        .toggle-btn.off { background: linear-gradient(90deg, #3b82f6, #2563eb); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+        .toggle-btn.on { background: linear-gradient(90deg, #ef4444, #dc2626); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        .toggle-btn:hover { transform: translateY(-2px); }
+        .status-text { font-size: 0.9rem; font-weight: 600; color: #ef4444; text-transform: uppercase; }
+        .status-text.active { color: #10b981; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box" id="loginBox">
+        <h2>PATRIOT ADMIN</h2>
+        <input type="password" id="passInput" placeholder="Введите секретный пароль">
+        <button onclick="checkPassword()">Войти в панель</button>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <h1>Patriot Control</h1>
+        <p>Управление состоянием основного сайта</p>
+        <div class="status-card">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="indicator" id="indicator"></div>
+                <div class="status-title">Статус тех. работ сайта</div>
+            </div>
+            <button class="toggle-btn off" id="toggleBtn" onclick="toggleMaintenance()">Включить обновление</button>
+            <div class="status-text" id="statusText">Режим обслуживания: ВЫКЛ</div>
+        </div>
+    </div>
+
+    <script>
+        let isMaintenanceOn = localStorage.getItem('maintenanceMode') === 'true';
+
+        function checkPassword() {
+            const pass = document.getElementById('passInput').value;
+            if (pass === "patriot2026") {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                updateAdminUI();
+            } else { alert("Неверный пароль!"); }
+        }
+
+        function toggleMaintenance() {
+            isMaintenanceOn = !isMaintenanceOn;
+            localStorage.setItem('maintenanceMode', isMaintenanceOn);
+            updateAdminUI();
+        }
+
+        function updateAdminUI() {
+            const btn = document.getElementById('toggleBtn');
+            const indicator = document.getElementById('indicator');
+            const text = document.getElementById('statusText');
+            if (isMaintenanceOn) {
+                btn.innerHTML = "Выключить обновление"; btn.className = "toggle-btn on";
+                indicator.classList.add('active'); text.innerHTML = "Режим обслуживания: АКТИВЕН";
+                text.className = "status-text active";
+            } else {
+                btn.innerHTML = "Включить обновление"; btn.className = "toggle-btn off";
+                indicator.classList.remove('active'); text.innerHTML = "Режим обслуживания: ВЫКЛ";
+                text.className = "status-text";
+            }
+        }
+    </script>
+</body>
+</html>
