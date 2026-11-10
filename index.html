@@ -23,7 +23,19 @@
         @keyframes zoomInLogo { 0% { opacity: 0; transform: scale(0.3) rotate(-10deg); filter: brightness(2); } 100% { opacity: 1; transform: scale(1) rotate(0deg); filter: brightness(1); } }
         @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 15px rgba(239, 68, 68, 0.3)); } 50% { transform: scale(1.03); filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.7)) drop-shadow(0 0 25px rgba(239, 68, 68, 0.5)); } 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 15px rgba(239, 68, 68, 0.3)); } }
+
+        .maintenance-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 6, 12, 0.8); backdrop-filter: blur(6px); z-index: 99999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+        .maintenance-overlay.active { opacity: 1; pointer-events: auto; }
+        .maintenance-box { background: #0e111f; border: 2px solid #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); padding: 35px 40px; border-radius: 14px; text-align: center; max-width: 450px; width: 90%; transform: scale(0.8); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .maintenance-overlay.active .maintenance-box { transform: scale(1); }
+        .spin-loader { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: #3b82f6; margin: 0 auto 20px auto; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .close-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05060c; z-index: 999999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+        .close-overlay.active { opacity: 1; pointer-events: auto; }
+        .close-box { text-align: center; max-width: 500px; padding: 20px; }
+        .lock-icon { font-size: 4.5rem; margin-bottom: 20px; text-shadow: 0 0 20px #ef4444; animation: pulseLock 2s infinite; }
+        @keyframes pulseLock { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -40,24 +52,33 @@
         </section>
     </div>
 
-    <div id="maintenanceAlert" style="position: fixed; bottom: -100px; right: 25px; background: #0e111f; border: 2px solid #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); padding: 20px 25px; border-radius: 10px; display: flex; align-items: center; gap: 15px; z-index: 99999; opacity: 0; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none;">
-        <div style="width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: #ef4444; animation: spinLoader 1s linear infinite;"></div>
-        <div>
-            <h4 style="color: #ffffff; font-family: sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 2px; text-transform: uppercase;">Сайт обновляется</h4>
-            <p style="color: #94a3b8; font-family: sans-serif; font-size: 0.85rem; font-weight: 600; margin: 0;">Ведутся технические работы...</p>
+    <div class="maintenance-overlay" id="maintenanceAlert">
+        <div class="maintenance-box">
+            <div class="spin-loader"></div>
+            <h3 style="color: #ffffff; font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; text-transform: uppercase;">Сайт обновляется</h3>
+            <p style="color: #94a3b8; font-size: 1rem; font-weight: 600;">Ведутся технические работы. Панель управления временно недоступна, скрипты обновляются под новый патч.</p>
         </div>
     </div>
-    <style>@keyframes spinLoader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
 
+    <div class="close-overlay" id="siteClosedAlert">
+        <div class="close-box">
+            <div class="lock-icon">🔒</div>
+            <h1 style="font-size: 3rem; font-weight: 900; background: linear-gradient(90deg, #ef4444, #b91c1c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;">Сайт закрыт</h1>
+            <p style="color: #cbd5e1; font-size: 1.2rem; font-weight: 600;">Разработчик временно закрыл доступ к проекту Патриот Скрипт. Запуск невозможен. Следите за новостями.</p>
+        </div>
+    </div>
+
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
     <script>
-        function checkMaintenance() {
-            const isUpdating = localStorage.getItem('maintenanceMode') === 'true';
-            const alertBox = document.getElementById('maintenanceAlert');
-            if (isUpdating) { alertBox.style.bottom = '25px'; alertBox.style.opacity = '1'; } 
-            else { alertBox.style.bottom = '-100px'; alertBox.style.opacity = '0'; }
-        }
-        setInterval(checkMaintenance, 500);
-        checkMaintenance();
+        if (!firebase.apps.length) { firebase.initializeApp({ databaseURL: "https://firebaseio.com" }); }
+        firebase.database().ref('siteSettings').on('value', (snapshot) => {
+            const data = snapshot.val() || {};
+            const overlayUpdate = document.getElementById('maintenanceAlert');
+            if (data.maintenance) { overlayUpdate.classList.add('active'); } else { overlayUpdate.classList.remove('active'); }
+            const overlayClose = document.getElementById('siteClosedAlert');
+            if (data.siteClosed) { overlayClose.classList.add('active'); } else { overlayClose.classList.remove('active'); }
+        });
     </script>
 </body>
 </html>
