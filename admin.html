@@ -41,19 +41,19 @@
                 <button class="toggle-btn off" id="btnUpdate" onclick="toggleOption('maintenance')">Включить обновление</button>
             </div>
             <div class="status-card">
-                <div style="display: flex; align-items: center; gap: 10px;"><div class="indicator" id="btnClose"></div><div class="status-title">Статус работы: Закрыть сайт</div></div>
+                <div style="display: flex; align-items: center; gap: 10px;"><div class="indicator" id="indClose"></div><div class="status-title">Статус работы: Закрыть сайт</div></div>
                 <button class="toggle-btn off" id="btnClose" onclick="toggleOption('siteClosed')">Закрыть сайт</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Инициализируем переменные заранее, чтобы убрать ошибку
+        // Всё объявляем и настраиваем строго в самом начале
         var currentSettings = { maintenance: false, siteClosed: false };
         
-        const firebaseConfig = { databaseURL: "https://firebaseio.com" };
+        var firebaseConfig = { databaseURL: "https://firebaseio.com" };
         firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        var database = firebase.database();
 
         function checkPassword() {
             if (document.getElementById('passInput').value === "patriot2026") {
